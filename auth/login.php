@@ -1,13 +1,22 @@
 <?php
+	require_once 'checkLogin.php';
+	if(isLoggedIn()) header('Location: ../index.php');
 	if(isset($_POST['login-submit']))
 	{
-		if (session_status() == PHP_SESSION_NONE) session_start();
-		$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
-		$stmt = $db->query("SELECT email, password FROM user where email = '". $_POST['loginemail'] ."' and password = '". $_POST['loginpassword'] ."' ");
-		// echo $stmt;
-		$row = $stmt->fetch();
-		if(!empty($row['email'])) $_SESSION['email'] = $row['email'];
-		else echo 'invalid';
+			if (session_status() == PHP_SESSION_NONE) session_start();
+			$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+			$stmt = $db->query("SELECT email, password, name, type FROM user where email = '". $_POST['loginemail'] ."' and password = '". $_POST['loginpassword'] ."' ");
+			// echo $stmt;
+			$row = $stmt->fetch();
+			if(!empty($row['email']))
+			{
+				$_SESSION['email'] = $row['email'];
+				$_SESSION['name'] = $row['name'];
+				$_SESSION['type'] = $row['type'];
+				header('Location: ../index.php');
+			}
+			else echo 'invalid';
+			$db = null;
 	}
 ?>
 
