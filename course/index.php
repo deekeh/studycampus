@@ -1,4 +1,5 @@
 <?php
+	// fetch course details from the database
 	$dbc = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
 	$stmtc = $dbc->query("select name, description from course where id = ". $_GET['id'] );
 	$rc = $stmtc->fetch();
@@ -14,6 +15,14 @@
 		$course_description = "Course description error";
 		$dbc = null;
 	}
+
+	// fetch videos for the course from the database
+	$dbv = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+	$stmtv = $dbv->prepare("select name from video where course_id = ". $_GET['id'] ." order by id");
+	$stmtv->execute();
+	$rv = $stmtv->fetchAll();
+	$videos = $rv;
+	$dbv = null;
 	
 	require_once '../auth/checkLogin.php';
 	if (isset($_POST['Enrol']))
@@ -90,11 +99,12 @@
 			</h4>
 		</div>
 
-		<div class="list-group mx-3">
-			<a href="" class="list-group-item list-group-item-action">Video - 1</a>
-			<a href="" class="list-group-item list-group-item-action">Video - 2</a>
-			<a href="" class="list-group-item list-group-item-action">Video - 3</a>
-			<a href="" class="list-group-item list-group-item-action">Video - 4</a>
+		<div class="list-group mx-3 mb-5">
+			<?php
+				foreach ($videos as $video) {
+			?>
+			<a href="video" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
+			<?php } ?>
 		</div>
 
 	</div>
