@@ -1,5 +1,6 @@
 <?php
-    if (!isLogIn()) header('Location: auth/login.php');
+    require_once 'auth/checkLogin.php';
+    if (!isLoggedIn()) header('Location: auth/login.php');
 ?>
 
 <!DOCTYPE html>
