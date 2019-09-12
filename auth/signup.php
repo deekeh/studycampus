@@ -1,5 +1,4 @@
 <?php
-	// $error = "";
 	if (isset ($_POST["Submit"]))
 	{
 		$r_email = $_POST["reg_email"];
@@ -105,7 +104,6 @@
 			<br>
 			<input type="submit" value="Submit" name="Submit" class="btn btn-danger" id="reg_submit">
 		</form>
-		
 	</div>
 	
 

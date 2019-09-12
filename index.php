@@ -26,7 +26,9 @@
 
 	<div>
 		<div class="jumbotron bigName text-center">
+			<font size="7">
 			<span class="t1">S</span><span class="t2">t</span><span class="t3">u</span><span class="t4">d</span><span class="t5">y</span><span class="t6">C</span><span class="t7">a</span><span class="t8">m</span><span class="t9">p</span><span class="t10">u</span><span class="t11">s</span>
+			</font>
 			<br><br>
 			<form action="search/">
 				<div class="input-group input-group-lg mb-3" id="searchButton">

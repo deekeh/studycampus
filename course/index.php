@@ -18,7 +18,7 @@
 
 	// fetch videos for the course from the database
 	$dbv = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
-	$stmtv = $dbv->prepare("select name from video where course_id = ". $_GET['id'] ." order by id");
+	$stmtv = $dbv->prepare("select id, name from video where course_id = ". $_GET['id'] ." order by id");
 	$stmtv->execute();
 	$rv = $stmtv->fetchAll();
 	$videos = $rv;
@@ -50,10 +50,10 @@
 	<div class="container mt-3">
 		<h3 class="display-4">
 			<div class="row">
-				<div class="col-10">
+				<div class="col-9">
 					<?= $course_name ?>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 					<?php
 						if (isLoggedIn())
 						{
@@ -66,7 +66,6 @@
 
 								if ($row['is_enrolled'] == 0)
 								{
-
 					?>
 					<form action="" method="post">
 						<input type="submit" value="Enrol" name="Enrol" class="btn btn-outline-success">
@@ -81,7 +80,7 @@
 						}
 						else {
 					?>
-						<a href="../auth/Login.php" class="btn btn-outline-success">Login to enrol</a>
+						<a href="../auth/login.php?redir=course&id=<?= $_GET['id'] ?>" class="btn btn-outline-success">Login to enrol</a>
 					<?php } $db = null; ?>
 				</div>
 			</div>
@@ -103,7 +102,7 @@
 			<?php
 				foreach ($videos as $video) {
 			?>
-			<a href="video" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
+			<a href="video?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
 			<?php } ?>
 		</div>
 
