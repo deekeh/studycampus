@@ -5,14 +5,14 @@
 	{
 			if (session_status() == PHP_SESSION_NONE) session_start();
 			$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
-			$stmt = $db->query("SELECT email, password, name, type FROM user where email = '". $_POST['loginemail'] ."' and password = '". $_POST['loginpassword'] ."' ");
-			// echo $stmt;
+			$stmt = $db->query("SELECT id, email, password, name, type FROM user where email = '". $_POST['loginemail'] ."' and password = '". $_POST['loginpassword'] ."' ");
 			$row = $stmt->fetch();
 			if(!empty($row['email']))
 			{
 				$_SESSION['email'] = $row['email'];
 				$_SESSION['name'] = $row['name'];
 				$_SESSION['type'] = $row['type'];
+				$_SESSION['id'] = $row['id'];
 				header('Location: ../index.php');
 			}
 			else echo 'invalid';

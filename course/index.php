@@ -1,5 +1,29 @@
 <?php
+	$dbc = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+	$stmtc = $dbc->query("select name, description from course where id = ". $_GET['id'] );
+	$rc = $stmtc->fetch();
+	if (!empty($rc['name']))
+	{
+		$course_name = $rc['name'];
+		$course_description = $rc['description'];
+		$dbc = null;
+	}
+	else
+	{
+		$course_name = "Course name error";
+		$course_description = "Course description error";
+		$dbc = null;
+	}
 	
+	require_once '../auth/checkLogin.php';
+	if (isset($_POST['Enrol']))
+	{
+		if (!isLoggedIn()) header('Location: ../auth/login.php');
+		else
+		{
+			
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -9,19 +33,55 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<title>Document</title>
+	<title>StudyCampus | Course Details</title>
 </head>
 <body>
 	<?php require_once '../layouts/navbar.php' ?>
 
 	<div class="container mt-3">
 		<h3 class="display-4">
-			Course name
+			<div class="row">
+				<div class="col-10">
+					<?= $course_name ?>
+				</div>
+				<div class="col-2">
+					<?php
+						if (isLoggedIn())
+						{
+							// only a student is allowed to enrol to a course
+							if ($_SESSION['type']) // type is 'true' if a 'student' is logged in
+							{
+								$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+								$stmt = $db->query("select count(*) as is_enrolled from enrolled_course where user_id = ". $_SESSION['id']);
+								// echo "select count(*) as is_enrolled from enrolled_course where user_id = ". $_SESSION['id'];
+								$row = $stmt->fetch();
+
+								if ($row['is_enrolled'] == 0)
+								{
+
+					?>
+					<form action="" method="post">
+						<input type="submit" value="Enrol" name="Enrol" class="btn btn-outline-success">
+					</form>
+					<?php
+								}
+								else
+								{
+									// display 'enrolled'
+								}
+							}
+						}
+						else {
+					?>
+						<a href="../auth/Login.php" class="btn btn-outline-success">Login to enrol</a>
+					<?php } $db = null; ?>
+				</div>
+			</div>
 		</h3>
 		
 		<div class="lead">
 			<em>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis ad quasi unde laborum iusto porro totam magnam id iure expedita, optio qui ducimus aspernatur vel. Esse consequatur recusandae sapiente magnam quidem, eum tempore, libero nobis quos commodi veniam nam suscipit expedita sit numquam rem. Delectus laudantium similique commodi eligendi atque?
+				<?= $course_description ?>
 			</em>
 		</div><hr>
 
