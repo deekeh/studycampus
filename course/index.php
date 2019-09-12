@@ -53,7 +53,6 @@
 							{
 								$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
 								$stmt = $db->query("select count(*) as is_enrolled from enrolled_course where user_id = ". $_SESSION['id']);
-								// echo "select count(*) as is_enrolled from enrolled_course where user_id = ". $_SESSION['id'];
 								$row = $stmt->fetch();
 
 								if ($row['is_enrolled'] == 0)
