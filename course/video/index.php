@@ -31,7 +31,9 @@
 		$(function() {
 			$('#videox').on('pause', function(e) {
 				var videoHandler = $("#videox")[0];
-				console.log("Duration At Pause "+videoHandler.currentTime);
+				$.post('savePause.php', { video_time : videoHandler.currentTime, video_id : <?= $v_id ?>, user_id : <?= $_SESSION['id'] ?> }, function(response) {
+					console.log(response);
+				});
 			});
 		});
 	</script>
@@ -42,9 +44,16 @@
 	<?php require_once '../../layouts/navbar.php' ?>
 	<div class="container">
 		<div class="mt-3">
-			<video controls id="videox" width="90%" controlsList="nodownload">
+			<!-- <video controls id="videox" width="90%" controlsList="nodownload">
 				<source type="video/mp4" src="<?= '../../data/'. $v_url ?>" />
-			</video>
+			</video> -->
+			<div class="mx-5">
+			<div class="embed-responsive embed-responsive-16by9">
+				<video controls src="<?= '../../data/'. $v_url ?>" class="embed-responsive-item" id="videox" controlsList="nodownload">
+					<!-- <source type="video/mp4" src="<?= '../../data/'. $v_url ?>" /> -->
+				</video>
+			</div>
+			</div>
 		</div>
 		<hr>
 		<h5>
@@ -52,7 +61,8 @@
 		</h5>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
