@@ -1,3 +1,12 @@
+## Database Structure
+### Syntax
+
+- level/name
+  - sub_level/name
+    - sub_sub_level/name
+---
+
+### Structure
 - database/studycampus
   - table/user
     - column/email
