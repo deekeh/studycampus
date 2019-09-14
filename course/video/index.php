@@ -35,6 +35,12 @@
 					console.log(response);
 				});
 			});
+
+			$('.toast').toast('show');
+
+			$('#btn-no').click(function() {
+				$('.toast').toast('hide');
+			});
 		});
 	</script>
 
@@ -43,16 +49,27 @@
 <body>
 	<?php require_once '../../layouts/navbar.php' ?>
 	<div class="container">
-		<div class="mt-3">
-			<!-- <video controls id="videox" width="90%" controlsList="nodownload">
-				<source type="video/mp4" src="<?= '../../data/'. $v_url ?>" />
-			</video> -->
-			<div class="mx-5">
-			<div class="embed-responsive embed-responsive-16by9">
-				<video controls src="<?= '../../data/'. $v_url ?>" class="embed-responsive-item" id="videox" controlsList="nodownload">
-					<!-- <source type="video/mp4" src="<?= '../../data/'. $v_url ?>" /> -->
-				</video>
+
+		<div class="toast" data-autohide="false" animation="true" style="position: fixed; right:20px; z-index: 5; width: 1000px;">
+			<div class="toast-body">
+				Still stuck on the topic?
+				<hr>
+				<div class="row">
+					<div class="col-6 mx-auto">
+						<button class="btn mx-auto" id="btn-yes">Yes</button>
+					</div>
+					<div class="col-6 mx-auto">
+						<button class="btn mx-auto" id="btn-no">No</button>
+					</div>
+				</div>
 			</div>
+		</div>
+
+		<div class="mt-3">
+			<div class="mx-5">
+				<div class="embed-responsive embed-responsive-16by9">
+					<video controls src="<?= '../../data/'. $v_url ?>" class="embed-responsive-item" id="videox" controlsList="nodownload"></video>
+				</div>
 			</div>
 		</div>
 		<hr>

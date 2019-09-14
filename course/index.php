@@ -30,7 +30,23 @@
 		if (!isLoggedIn()) header('Location: ../auth/login.php');
 		else
 		{
-			
+			// check if the user is enrolled to the course
+			$dbe = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+			$stmte = $dbe->prepare("select count(*) as is_enrolled from enrolled_course from where course_id = ". $_GET['id'] . " and user_id = ". $_SESSION['id'] . ";");
+			$stmte->execute();
+			$is_enrolled = $stmte->fetch();
+			$dbe = null;
+
+			if (!$is_enrolled)
+			{
+				$dben = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+				$sql = "insert into enrolled_course (user_id, course_id) values (". $_SESSION['id'] .", ". $_GET['id'] .");";
+				$dben->beginTransaction();
+				$dben->exec($sql);
+				$dben->commit();
+				$dben = null;
+				header('Location: ../../');
+			}
 		}
 	}
 ?>
@@ -61,7 +77,7 @@
 							if ($_SESSION['type']) // type is 'true' if a 'student' is logged in
 							{
 								$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
-								$stmt = $db->query("select count(*) as is_enrolled from enrolled_course where user_id = ". $_SESSION['id']);
+								$stmt = $db->query("select count(*) as is_enrolled from enrolled_course where course_id = ". $_GET['id'] . " and user_id = ". $_SESSION['id'] . ";");
 								$row = $stmt->fetch();
 
 								if ($row['is_enrolled'] == 0)
@@ -74,7 +90,13 @@
 								}
 								else
 								{
-									// display 'enrolled'
+									?>
+									<h4>
+									<span class="badge badge-success mt-4">
+										<i>Enrolled</i>
+									</span>
+									</h4>
+									<?php
 								}
 							}
 						}
@@ -100,10 +122,40 @@
 
 		<div class="list-group mx-3 mb-5">
 			<?php
-				foreach ($videos as $video) {
+				if (isLoggedIn())
+				{
+					$dbex = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+					$stmtex = $dbex->prepare("select count(*) as is_enrolled from enrolled_course where course_id = ". $_GET['id'] . " and user_id = ". $_SESSION['id'] . ";");
+					$stmtex->execute();
+					$is_enrolledx = $stmtex->fetch();
+					if (!$is_enrolledx)
+					{
+					?>
+						<div class="alert alert-danger">
+							You need to enrol to view the content of the course.
+						</div>
+					<?php
+					}
+					else
+					{
+						foreach ($videos as $video)
+						{
+
 			?>
-			<a href="video?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
-			<?php } ?>
+							<a href="video?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
+			<?php
+						}
+					}
+				}
+				else
+				{
+					?>
+					<div class="alert alert-danger">
+						You need to log in to view the content of the course.
+					</div>
+					<?php
+				}
+			?>
 		</div>
 
 	</div>
