@@ -29,19 +29,66 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
+			var toast_isset = false;
+			
 			$('#videox').on('pause', function(e) {
+				// var timeout = 3000;
 				var videoHandler = $("#videox")[0];
-				$.post('savePause.php', { video_time : videoHandler.currentTime, video_id : <?= $v_id ?>, user_id : <?= $_SESSION['id'] ?> }, function(response) {
-					console.log(response);
-				});
+				var showHelp = setTimeout(function() {
+					$('#help_toast').toast('show');
+					// timeout += 3000
+				}, 3000);
+
+				// clearTimeout();
+				var hideHelp = setTimeout(function() {
+					$('#help_toast').toast('hide');
+					// timeout += 3000;
+				}, 6000);
+
+				// clearTimeout();
+				// $('.toast').toast('show');
+				// $.post('savePause.php', { video_time : videoHandler.currentTime, video_id : <?= $v_id ?>, user_id : <?= $_SESSION['id'] ?> }, function(response) {
+					// console.log(response);
+				// });
 			});
-
-			$('.toast').toast('show');
-
+			
 			$('#btn-no').click(function() {
-				$('.toast').toast('hide');
+				toast_isset = false;
+				clearTimeout(showHelp);
+				clearTimeout(hideHelp);
+				
+				$('#help_toast').toast('hide');
+			});
+			$('#btn-yes').click(function() {
+				toast_isset = true;
+				clearTimeout();
+				$('#help_toast').toast('hide');
+				$('#url_toast').toast('show');
+			});
+			$('#btn-close').click(function() {
+				// toast_isset = false;
+				$('#url_toast').toast('hide');
 			});
 		});
+	</script>
+	<script type="text/javascript">
+		// $(function() {
+			$('#btn-no').click(function() {
+				toast_isset = false;
+				clearTimeout();
+				$('#help_toast').toast('hide');
+			});
+			$('#btn-yes').click(function() {
+				toast_isset = true;
+				clearTimeout();
+				$('#help_toast').toast('hide');
+				$('#url_toast').toast('show');
+			});
+			$('#btn-close').click(function() {
+				// toast_isset = false;
+				$('#url_toast').toast('hide');
+			});
+		// });
 	</script>
 
 	<title>StudyCampus | Watch</title>
@@ -50,17 +97,30 @@
 	<?php require_once '../../layouts/navbar.php' ?>
 	<div class="container">
 
-		<div class="toast" data-autohide="false" animation="true" style="position: fixed; right:20px; z-index: 5; width: 1000px;">
+		<div class="toast" id="help_toast" data-autohide="false" animation="true" style="position: fixed; top:100px; right:20px; z-index: 5; width: 1000px;">
 			<div class="toast-body">
-				Still stuck on the topic?
+				Topic: '<?= $v_name ?>'
 				<hr>
 				<div class="row">
 					<div class="col-6 mx-auto">
-						<button class="btn mx-auto" id="btn-yes">Yes</button>
+						<button class="btn mx-auto" id="btn-yes">Help me!</button>
 					</div>
 					<div class="col-6 mx-auto">
-						<button class="btn mx-auto" id="btn-no">No</button>
+						<button class="btn mx-auto" id="btn-no">Close</button>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="toast" id="url_toast" data-autohide="false" animation="true" style="position: fixed; right:20px; z-index: 5; width: 1000px;">
+			<div class="toast-body">
+				Here's a post which we think might help you:<br>
+				<a href="" target="_blank">'<?= $v_name ?>'</a>
+				<hr>
+				<div class="row">
+					<div class="col-12 mx-auto">
+						<button class="col-12 btn mx-auto" id="btn-close">Help me!</button>
+					</div>
+					
 				</div>
 			</div>
 		</div>
