@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(function() {
 			var toast_isset = false;
 			
@@ -70,25 +70,27 @@
 				$('#url_toast').toast('hide');
 			});
 		});
-	</script>
+	</script> -->
 	<script type="text/javascript">
-		// $(function() {
-			$('#btn-no').click(function() {
-				toast_isset = false;
-				clearTimeout();
+		$(function() {
+			// $('#help_toast')
+			function show_help()
+			{
+				$('#help_toast').toast('show');
+			}
+			function hide_help()
+			{
+				$('#help_toast').toast('hide');
+			}
+			$("#videox").on('pause', function() {
+				show_help();
+				var help_hide = setTimeout(hide_help, 3000);
+				// $('#help_toast').toast('show');
+			});
+			$("#videox").on('play', function() {
 				$('#help_toast').toast('hide');
 			});
-			$('#btn-yes').click(function() {
-				toast_isset = true;
-				clearTimeout();
-				$('#help_toast').toast('hide');
-				$('#url_toast').toast('show');
-			});
-			$('#btn-close').click(function() {
-				// toast_isset = false;
-				$('#url_toast').toast('hide');
-			});
-		// });
+		});
 	</script>
 
 	<title>StudyCampus | Watch</title>
@@ -103,15 +105,18 @@
 				<hr>
 				<div class="row">
 					<div class="col-6 mx-auto">
-						<button class="btn mx-auto" id="btn-yes">Help me!</button>
+						<button class="btn mx-auto close" data-dismiss="toast" id="btn-yes" style="font-size: 1rem;">Help!</button>
 					</div>
 					<div class="col-6 mx-auto">
-						<button class="btn mx-auto" id="btn-no">Close</button>
+						<button class="btn mx-auto close" data-dismiss="toast" style="font-size: 1rem; id="btn-no">Close</button>
+						<!-- <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      						<span aria-hidden="true"></span>No -->
+    					</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="toast" id="url_toast" data-autohide="false" animation="true" style="position: fixed; right:20px; z-index: 5; width: 1000px;">
+		<!-- <div class="toast" id="url_toast" data-autohide="false" animation="true" style="position: fixed; right:20px; z-index: 5; width: 1000px;">
 			<div class="toast-body">
 				Here's a post which we think might help you:<br>
 				<a href="" target="_blank">'<?= $v_name ?>'</a>
@@ -123,7 +128,7 @@
 					
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="mt-3">
 			<div class="mx-5">
