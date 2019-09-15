@@ -15,7 +15,7 @@
 	- column/password text
 	- column/type tinyint(1)
   - table/enrolled_course
-    - column/course_id int(10)
+    - column/user_id int(10)
 	- column/course_id int(10)
   - table/course
     - column/id auto_increment int(11)
