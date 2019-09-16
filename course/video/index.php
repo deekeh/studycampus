@@ -110,8 +110,8 @@
 					<div class="col-6 mx-auto">
 						<button class="btn mx-auto close" data-dismiss="toast" style="font-size: 1rem; id="btn-no">Close</button>
 						<!-- <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-      						<span aria-hidden="true"></span>No -->
-    					</button>
+      						<span aria-hidden="true"></span>No
+    					</button> -->
 					</div>
 				</div>
 			</div>

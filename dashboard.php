@@ -1,6 +1,13 @@
 <?php
     require_once 'auth/checkLogin.php';
     if (!isLoggedIn()) header('Location: auth/login.php');
+
+    $db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
+    $stmt = $db->prepare("SELECT name from course where id IN (SELECT course_id FROM enrolled_course where user_id = ". $_SESSION['id'] .");");
+    $stmt->execute();
+    $rows = $stmt->fetchAll();
+    $courses = $rows;
+    $db = null;
 ?>
 
 <!DOCTYPE html>
@@ -34,8 +41,16 @@
                 Courses enrolled
             </h4>
             <div class="list-group">
-                <a href="resource.php?c_id=1" data-toggle="tooltip" title="View resources" data-placement="left" class="list-group-item list-group-item-active">Course 1</a>
-                <a href="resource.php?c_id=1"  data-toggle="tooltip" title="View resources" data-placement="left" class="list-group-item list-group-item-active">Course 1</a>
+                <?php
+                    foreach ($courses as $course)
+                    {
+                        ?>
+                            <a href="resource.php?c_id=1" data-toggle="tooltip" title="View resources" data-placement="left" class="list-group-item list-group-item-active"><?= $course['name'] ?></a>
+                        <?php
+                    }
+                ?>
+                
+                
             </div>
         </div>
     </div>
