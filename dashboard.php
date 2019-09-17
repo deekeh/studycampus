@@ -8,6 +8,18 @@
     $rows = $stmt->fetchAll();
     $courses = $rows;
     $db = null;
+    
+    // CREATING THE QUERY
+    // $q = "SELECT topic_name, resource_url from video_topic_breakpoint WHERE video_id IN ( SELECT id from video where course_id IN (";
+    // foreach ($courses as $course)
+    // {
+    //     $q .= $course['id']. ", ";
+    // }
+    // $q .= "'') )";
+    // echo $q;
+
+    // $db = new PDO('mysql:host=localhost;dbname=studycampus', 'root', '');
+    // $stmt= $db->prepare("SELECT topic_name, resource_url from video_topic_breakpoint WHERE video_id IN ( SELECT id from video where course_id IN (1, 2) )");
 ?>
 
 <!DOCTYPE html>
