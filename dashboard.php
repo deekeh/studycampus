@@ -3,7 +3,7 @@
     if (!isLoggedIn()) header('Location: auth/login.php');
 
     $db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
-    $stmt = $db->prepare("SELECT name from course where id IN (SELECT course_id FROM enrolled_course where user_id = ". $_SESSION['id'] .");");
+    $stmt = $db->prepare("SELECT id, name from course where id IN (SELECT course_id FROM enrolled_course where user_id = ". $_SESSION['id'] .");");
     $stmt->execute();
     $rows = $stmt->fetchAll();
     $courses = $rows;
@@ -44,9 +44,24 @@
                 <?php
                     foreach ($courses as $course)
                     {
+                        $i = 1;
                         ?>
-                            <a href="resource.php?c_id=1" data-toggle="tooltip" title="View resources" data-placement="left" class="list-group-item list-group-item-active"><?= $course['name'] ?></a>
+                            <a href="course/?id=<?= $course['id'] ?>" class="list-group-item list-group-item-active"><?= $course['name'] ?>
+                            <p>
+                                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample<?= $i ?>" onclick="return false;" aria-expanded="false" aria-controls="collapseExample<?= $i ?>">
+                                    My bookmarks
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapseExample<?= $i ?>">
+                                <div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
+                                    <form action="/studycampus"> <input class="btn btn-link" type="submit" value="URL"> </form>
+                                    <form action="/studycampus"> <input class="btn btn-link" type="submit" value="URL"> </form>
+                                </div>
+                            </div>
+                        </a>
+                            
                         <?php
+                        $i++;
                     }
                 ?>
                 
