@@ -22,7 +22,6 @@
 	$stmtr = $dbr->prepare("select end_point, topic_name, resource_url from video_topic_breakpoint where video_id = ". $v_id . " order by end_point;");
 	$stmtr->execute();
 	$breakpoint = $stmtr->fetchAll();
-	// var_dump($breakpoint);
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +35,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript">
 		var v_data = <?php echo json_encode($breakpoint); ?>;
+		var v_topic, v_url, break_number;
+
 		function test(e) {
 			var videoHandler = $("#videox")[0];
 			$.post('savePause.php', { video_time : videoHandler.currentTime, video_id : <?= $v_id ?>, user_id : <?= $_SESSION['id'] ?> }, function(response) {
@@ -43,10 +44,6 @@
 				});
 		}
 		$(function() {
-			console.log(v_data[0][0]);
-
-
-			// $('#help_toast')
 			function show_help()
 			{
 				$('#help_toast').toast('show');
@@ -58,10 +55,20 @@
 			$("#videox").on('pause', function(e) {
 				var videoHandler = $("#videox")[0];
 				var pause_time = videoHandler.currentTime;
-				foreach
+
+				var i = 0;
+				for (i = 0; i < v_data.length; i++)
+				{
+					if (pause_time < v_data[i][0])
+					{
+						break_number = i;
+						break;
+					}
+				}
+				$('#topic_name').html(v_data[break_number][1]);
+
 				show_help();
 				var help_hide = setTimeout(hide_help, 3000);
-				// $('#help_toast').toast('show');
 			});
 			$("#videox").on('play', function() {
 				$('#help_toast').toast('hide');
