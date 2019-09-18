@@ -8,7 +8,6 @@
 	}
 	else
 	{
-		
 		$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
 		$stmt = $db->prepare("SELECT video_time from video_pause WHERE user_id = ". $_SESSION['id'] ." AND video_id = ". $_GET['vid'] .";");
 		$stmt->execute();
@@ -23,18 +22,12 @@
 		$stmt->execute();
 		$breaksx = $stmt->fetch();
 		$breaks = (int) $breaksx['breaks'];
-		
 		$db = null;
-
-
 
 		$endpoints = array();
 		foreach ($topics as $topic) array_push($endpoints, ((int) $topic['end_point']));
-
-
 		$pt = array();
 		for ($t = 0; $t < $breaks; $t++) $pt[$t] = 0;
-
 
 		foreach ($pauses as $pause)
 		{
@@ -43,13 +36,11 @@
 			{
 				if (((int)($pause['video_time'])) <= $endpoint)
 				{
-					// continue;
 					$pt[$iterator] ++;
 					break;
 				}
 				$iterator++;
 			}
-			// echo $pause['end_point'];
 		}
 	}
 ?>
@@ -99,11 +90,6 @@
 			<a class="btn btn-outline-info" href="all-resources.php" role="button">View all courses topic-wise</a>
 		</div>
 	</div>
-
-
-
-
-
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
