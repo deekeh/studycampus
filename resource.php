@@ -14,11 +14,43 @@
 		$stmt->execute();
 		$pauses = $stmt->fetchAll();
 
-		$q = "SELECT topic_name, resource_url from video_topic_breakpoint WHERE video_id = ". $_GET['vid'] . ";";
+		$q = "SELECT end_point, topic_name, resource_url from video_topic_breakpoint WHERE video_id = ". $_GET['vid'] . ";";
 		$stmt = $db->prepare($q);
 		$stmt->execute();
 		$topics = $stmt->fetchAll();
+
+		$stmt = $db->prepare("SELECT count(*) as breaks from video_topic_breakpoint WHERE video_id = ". $_GET['vid'] . ";");
+		$stmt->execute();
+		$breaksx = $stmt->fetch();
+		$breaks = (int) $breaksx['breaks'];
+		
 		$db = null;
+
+
+
+		$endpoints = array();
+		foreach ($topics as $topic) array_push($endpoints, ((int) $topic['end_point']));
+		// var_dump ($endpoints);
+
+
+		$pt = array();
+		for ($t = 0; $t < $breaks; $t++) $pt[$t] = 0;
+
+
+		foreach ($pauses as $pause)
+		{
+			$iterator = 0;
+			foreach ($endpoints as $endpoint)
+			{
+				if ((int)($pause['video_time']) <= $endpoint)
+				{
+					$pt[$iterator] ++;
+					break;
+				}
+				$iterator++;
+			}
+			// echo $pause['end_point'];
+		}
 	}
 ?>
 
@@ -29,23 +61,38 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<title>Document</title>
+	<title>StudyCampus | Extras</title>
 </head>
 <body>
 	<?php require_once 'layouts/navbar.php' ?>
 	<div class="container">
-		<table class="table table-hover mt-4">
-			<thead>
-				<th>#</th>
-				<th>Topic Name</th>
-				<th>Extra Help Resources</th>
-			</thead>
-			<tbody>
-				<tr>
-					
-				</tr>
-			</tbody>
-		</table>
+		<div class="table-responsive">
+			<table class="table table-hover mt-4">
+				<thead>
+					<th>#</th>
+					<th>Topics</th>
+					<th>Pauses</th>
+					<th>Extra Help Resources</th>
+				</thead>
+				<tbody>
+					<?php
+						$i = 1;
+						foreach ($topics as $topic)
+						{
+					?>
+					<tr>
+						<td><?= $i ?></td>
+						<td><?= $topic['topic_name'] ?></td>
+						<td><?= $pt[$i-1] ?></td>
+						<td><a target="_blank" href="<?= $topic['resource_url'] ?>"><?= $topic['resource_url'] ?></a></td>
+					</tr>
+					<?php
+							$i++;
+						}
+					?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 
