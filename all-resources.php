@@ -1,56 +1,14 @@
 <?php
 	require_once 'auth/checkLogin.php';
 	if(!isLoggedIn()) header('Location: auth/login.php');
-	if(!isset($_GET['vid']))
-	{
-		echo 'Link error';
-		return;
-	}
 	else
 	{
-		
 		$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
-		$stmt = $db->prepare("SELECT video_time from video_pause WHERE user_id = ". $_SESSION['id'] ." AND video_id = ". $_GET['vid'] .";");
-		$stmt->execute();
-		$pauses = $stmt->fetchAll();
-
-		$q = "SELECT end_point, topic_name, resource_url from video_topic_breakpoint WHERE video_id = ". $_GET['vid'] . ";";
+		$q = "SELECT end_point, topic_name, resource_url from video_topic_breakpoint;";
 		$stmt = $db->prepare($q);
 		$stmt->execute();
 		$topics = $stmt->fetchAll();
-
-		$stmt = $db->prepare("SELECT count(*) as breaks from video_topic_breakpoint WHERE video_id = ". $_GET['vid'] . ";");
-		$stmt->execute();
-		$breaksx = $stmt->fetch();
-		$breaks = (int) $breaksx['breaks'];
-		
 		$db = null;
-
-
-
-		$endpoints = array();
-		foreach ($topics as $topic) array_push($endpoints, ((int) $topic['end_point']));
-
-
-		$pt = array();
-		for ($t = 0; $t < $breaks; $t++) $pt[$t] = 0;
-
-
-		foreach ($pauses as $pause)
-		{
-			$iterator = 0;
-			foreach ($endpoints as $endpoint)
-			{
-				if (((int)($pause['video_time'])) <= $endpoint)
-				{
-					// continue;
-					$pt[$iterator] ++;
-					break;
-				}
-				$iterator++;
-			}
-			// echo $pause['end_point'];
-		}
 	}
 ?>
 
@@ -71,32 +29,27 @@
 				<thead>
 					<th>#</th>
 					<th>Topics</th>
-					<th>Pauses</th>
+					
 					<th>Extra Help Resources</th>
 				</thead>
 				<tbody>
 					<?php
-						$row_num = 1; $i = 0;
-						foreach ($topics as $topic)
-						{
-							if ($pt[$i] != 0)
-							{
+                        $row_num = 1;
+                        foreach ($topics as $topic)
+                        {
 					?>
 					<tr>
 						<th scope="row"><?= $row_num ?></th>
 						<td><?= $topic['topic_name'] ?></td>
-						<td><?= $pt[$i] ?></td>
+						
 						<td><a target="_blank" href="<?= $topic['resource_url'] ?>"><?= $topic['resource_url'] ?></a></td>
 					</tr>
 					<?php
-								$row_num++;
-							}
-							$i ++;
-						}
+                            $row_num++;
+                        }
 					?>
 				</tbody>
 			</table>
-			<a class="btn btn-outline-info" href="all-resources.php" role="button">View all courses topic-wise</a>
 		</div>
 	</div>
 

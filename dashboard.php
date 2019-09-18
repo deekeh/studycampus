@@ -80,9 +80,10 @@
 
 
 							<p>
-								<button type="button" class="btn btn-outline-success" data-toggle="collapse" data-target="#course<?= $course['id'] ?>" aria-expanded="false" aria-controls="course<?= $course['id'] ?>">
+								<button type="button" class="btn btn-outline-success mr-4" data-toggle="collapse" data-target="#course<?= $course['id'] ?>" aria-expanded="false" aria-controls="course<?= $course['id'] ?>">
 									<?= $course['name'] ?>
 								</button>
+								<a class="btn btn-outline-info btn-sm" href="all-resources.php" role="button">View all courses topic-wise</a>
 								<div class="collapse" id="course<?= $course['id'] ?>">
 									<div class="list-group">
 										<?php
