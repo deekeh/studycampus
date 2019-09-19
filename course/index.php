@@ -128,7 +128,7 @@
 					$stmtex = $dbex->prepare("select count(*) as is_enrolled from enrolled_course where course_id = ". $_GET['id'] . " and user_id = ". $_SESSION['id'] . ";");
 					$stmtex->execute();
 					$is_enrolledx = $stmtex->fetch();
-					if (!$is_enrolledx)
+					if ($is_enrolledx != 0)
 					{
 					?>
 						<div class="alert alert-danger">
