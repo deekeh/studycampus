@@ -46,7 +46,7 @@
 		</h2>
 		<hr>
 
-		<div class="container">
+		<div class="container mb-5">
 			<h4>
 				Courses enrolled
 			</h4>
@@ -54,7 +54,6 @@
 				<?php
 					foreach ($courses as $course)
 					{
-						$i = 1;
 						?>
 							<p>
 								<button type="button" class="btn btn-outline-success mr-4" data-toggle="collapse" data-target="#course<?= $course['id'] ?>" aria-expanded="false" aria-controls="course<?= $course['id'] ?>">
@@ -64,6 +63,7 @@
 								<div class="collapse" id="course<?= $course['id'] ?>">
 									<div class="list-group">
 										<?php
+										$i = 1;
 										foreach($videos as $video)
 										{
 											if($video['course_id'] == $course['id'])
@@ -71,7 +71,8 @@
 											?>
 												<a href="resource.php?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action">
 													<?php
-														if($video['course_id'] == $course['id']) echo $video['name'];
+														if($video['course_id'] == $course['id']) echo $i. ". ".$video['name'];
+														$i++;
 													?>
 												</a>
 											<?php

@@ -138,11 +138,13 @@
 					}
 					else
 					{
+						$i = 1;
 						foreach ($videos as $video)
 						{
 			?>
-							<a href="video?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
+							<a href="video?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action"><?= $i ?>. &nbsp;&nbsp;&nbsp;&nbsp;<?= $video['name'] ?></a>
 			<?php
+							$i++;
 						}
 					}
 				}
