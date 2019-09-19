@@ -98,7 +98,7 @@
 				</tbody>
 			</table>
 		</div>
-		<a class="btn btn-outline-info mt-3" href="all-resources.php" role="button">View all courses topic-wise</a>
+		<a class="btn btn-outline-info mt-3" href="all-resources.php" role="button">View all resources topic-wise</a>
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

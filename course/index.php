@@ -45,7 +45,7 @@
 				$dben->exec($sql);
 				$dben->commit();
 				$dben = null;
-				header('Location: ../../');
+				header('Location: ');
 			}
 		}
 	}
