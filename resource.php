@@ -64,6 +64,7 @@
 					<th>Topics</th>
 					<th>Pauses</th>
 					<th>Extra Help Resources</th>
+					<th>Delete</th>
 				</thead>
 				<tbody>
 					<?php
@@ -78,6 +79,15 @@
 						<td><?= $topic['topic_name'] ?></td>
 						<td><?= $pt[$i] ?></td>
 						<td><a target="_blank" href="<?= $topic['resource_url'] ?>"><?= $topic['resource_url'] ?></a></td>
+						<td>
+							<form action="delete-pause.php" method="get">
+								<input type="hidden" name="vid" value='<?= $_GET['vid'] ?>'>
+								<input type="hidden" name="endpoint" value='<?= $topic['end_point'] ?>'>
+								<button type="submit" class="close" aria-label="Close">
+									<span class="mr-5" aria-hidden="true">&times;</span>
+								</button>
+							</form>
+						</td>
 					</tr>
 					<?php
 								$row_num++;
@@ -87,8 +97,8 @@
 					?>
 				</tbody>
 			</table>
-			<a class="btn btn-outline-info" href="all-resources.php" role="button">View all courses topic-wise</a>
 		</div>
+		<a class="btn btn-outline-info mt-3" href="all-resources.php" role="button">View all courses topic-wise</a>
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

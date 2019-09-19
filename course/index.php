@@ -140,7 +140,6 @@
 					{
 						foreach ($videos as $video)
 						{
-
 			?>
 							<a href="video?vid=<?= $video['id'] ?>" class="list-group-item list-group-item-action"><?= $video['name'] ?></a>
 			<?php

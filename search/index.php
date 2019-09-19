@@ -1,7 +1,6 @@
 <?php
 	if(isset($_GET['q']))
 	{
-		// if (session_status() == PHP_SESSION_NONE) session_start();
 		$db = new PDO('mysql:host=localhost;dbname=studycampus', "root", "");
 		$stmt = $db->prepare("SELECT id, name, description FROM course where name like '%". $_GET['q'] ."%' ");
 		$stmt->execute();
